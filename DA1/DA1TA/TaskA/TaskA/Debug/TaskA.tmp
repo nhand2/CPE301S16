@@ -1,0 +1,37 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.57</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc</DIR>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.90\avrasm\inc\m328pdef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\Debug\TaskA.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>TaskA.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>TaskA.map</FILE>
+  <FILE>TaskA.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <loop><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>23</LINE></loop>
+  <again><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>40</LINE></again>
+  <division7><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>43</LINE></division7>
+  <sum_7><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>64</LINE></sum_7>
+  <division3><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>51</LINE></division3>
+  <sum_3><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>69</LINE></sum_3>
+  <div_lp><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>58</LINE></div_lp>
+  <done><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>87</LINE></done>
+  <ovr_flw7><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>75</LINE></ovr_flw7>
+  <ovr_flw3><FILE>C:\Users\Derek-PC\Documents\School\College\2015-2016\CPE301\CPE301S16_DA\DA1\DA1TA\TaskA\TaskA\main.asm</FILE><LINE>81</LINE></ovr_flw3>
+ </LABELS>
+</ASSEMBLER_INFO>
