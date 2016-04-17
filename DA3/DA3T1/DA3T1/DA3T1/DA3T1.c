@@ -1,49 +1,65 @@
-// This code waits for a character and transmits the character back (with interrupts)
-#include <avr/io.h>
-#include <stdint.h> // needed for uint8_t
+#define F_CPU 8000000UL
+#include <avr/io.h> //standard AVR header
+#include <util/delay.h> //delay header
 #include <avr/interrupt.h>
-#include <stdio.h>
 
-#define FOSC 8000000 // Clock Speed
-#define BAUD 9600
-#define MYUBRR FOSC/16/BAUD -1
-
-ISR(ADC_vect)
+void usart_init (void)
 {
-	while(!(UCSR0A&(1<<UDRE0)));
-	UDR0 = ADCH; // only need to read the high value for 8 bit
+	UCSR0B = (1<<TXEN0); //enable transmitt only
+	UCSR0C = ((1<<UCSZ01)|(1<<UCSZ00));		//removed (1<<UMSEL00) because it sets in synchronous mode, we are using asynchronous
+	UBRR0H = 0x00; //high value of baud rate
+	UBRR0L = 0x33; //baud rate of 9600
 }
 
-void wait ()
+
+volatile unsigned int ADCvalue; //adc value buffer
+void init_328(void)
+//subroutine to initialize all counter/adc used in the application
 {
-	TCNT1=57724;				//sets counter to 49911, which takes 1 s to overflow
-	TCCR1A=0x00;				//normal more operation
-	TCCR1B=0x05;				//prescaler of 1024
-	while((TIFR1&0x01)==0);		//loops until TOV1 is set
-	TCCR1B=0x00;				//stops the timer
-	TIFR1|=(1<<TOV1);			//clear TOV1 flag
+	ADMUX|=(1<<REFS0);	//use Vcc as ref (0.1uF cap  attached)
+	ADCSRA|=(1<<ADSC)|(1<<ADEN)|(1<<ADIE)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)|(1<<ADATE);
+	//start conversion; enable adc; enable interrupts; select 128 prescaler;
+	//auto trigger enable; ADC0 used
+	ADCSRB=0;
+	//adc in free running mode
 }
 
-int main( void )
+void usart_send(unsigned char ch)
 {
-	/*Set baud rate */
-	UBRR0H = ((MYUBRR)>>8);
-	UBRR0L = MYUBRR;
+	while (!(UCSR0A & (1<<UDRE0))); //wait here until the buffer done writing
+	UDR0=ch; //set ch to UDR0 buffer to send to terminal
+}
 
-	UCSR0B |= (1 << TXEN0); // Enable transmitter
-	UCSR0B |= (1 << TXCIE0); // Enable transmitter interrupt
-	UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00); // Set frame: 8data, 1 stp
-	ADMUX |= 0x08;		//Set to use internal temp sensor, Ref of 1.1V, left adjust
-	ADMUX |= (1<<ADLAR);
-	ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // 128 prescale for 16Mhz
-	ADCSRA |= (1 << ADATE); // Set ADC Auto Trigger Enable
-	ADCSRB = 0x06;			// Start ADC when overflow flag is set
-	ADCSRA |= (1 << ADEN); 	// Enable the ADC
-	ADCSRA |= (1 << ADIE); 	// Enable Interrupts
-	
-	sei();
-	while(1)
-	{
-		wait(); // Main loop
-	}
+
+ISR (ADC_vect)
+{
+	char temperature[2] = "00"; //temperature string array
+	char temp; //temp place holder
+	char header[13]= "Temperature: "; //header for temperature
+	ADCvalue=ADC; //reads all 16-bits of ADCH:ADCL
+	ADCvalue=(ADCvalue)*(500.0/1024.0); //convert the read ADCvalue to temperature
+	//500.0=>(Vref * 100)=>(5V * 100)
+	//divide by 1024, the max for the ADC values (0-1024)
+	temp=(ADCvalue/10); //divide by 10 to get the 10's place digit
+	temperature[0]=temp+48; //add ascii '0' to display on LCD
+	temp=(ADCvalue%10); //modulo by 10 to get 1's place digit
+	temperature[1]=temp+ 48; //add ascii '0' to get display on LCD
+	for (int i; i<13; i++)
+		usart_send(header[i]); //loop to send the header "Temperature: "
+	usart_send(temperature[0]); //sends 10s space of temperatue
+	usart_send(temperature[1]); //sends 1 space of temperature
+	usart_send('°'); //sends degree sign
+	usart_send('F'); //sends F
+	usart_send('\n'); //send line feed
+	_delay_ms(1000); //wait 1 seconds before retreiving data again
+}
+
+int main(void)
+{
+	usart_init(); //initialize usart
+	init_328();	//initialize the adc
+	sei(); //enable interrupts
+	while(1);
+
+return 0;
 }
